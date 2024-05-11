@@ -12,7 +12,12 @@ class SplashScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
       Future.delayed(const Duration(seconds: 2), () {
-        Routes.router.pushReplacementNamed(Routes.main);
+        Routes.router.pushReplacementNamed(
+          Routes.main,
+          extra: MainScreenArguments(
+            title: 'Flutter Demo Home Page',
+          ),
+        );
       });
       return null;
     }, []);
