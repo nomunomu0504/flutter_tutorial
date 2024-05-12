@@ -14,7 +14,10 @@ CountStoreLocalRepository countStoreLocalRepository(CountStoreLocalRepositoryRef
   );
 }
 
-abstract class CountStoreLocalRepository {}
+abstract class CountStoreLocalRepository {
+  void saveCurrentStoredCounts(List<int> storedCounts);
+  List<int> getCurrentStoredCounts();
+}
 
 class _CountStoreLocalRepository implements CountStoreLocalRepository {
   _CountStoreLocalRepository({
@@ -24,10 +27,12 @@ class _CountStoreLocalRepository implements CountStoreLocalRepository {
   static const String _sharedPreferencesKey = 'sharedPreferences';
   final SharedPreferences _sharedPreferences;
 
+  @override
   void saveCurrentStoredCounts(List<int> storedCounts) {
     _sharedPreferences.setString(_sharedPreferencesKey, jsonEncode(storedCounts));
   }
 
+  @override
   List<int> getCurrentStoredCounts() {
     final storedCountsJsonString = _sharedPreferences.getString(_sharedPreferencesKey);
     return storedCountsJsonString == null ? [] : jsonDecode(storedCountsJsonString);
