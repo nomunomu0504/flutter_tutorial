@@ -8,4 +8,6 @@ class CounterStore extends _$CounterStore {
   List<int> build() => [];
 
   void saveCount(int count) => state = [count, ...state];
+
+  List<int> getCounts() => state;
 }
