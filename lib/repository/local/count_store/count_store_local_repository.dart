@@ -35,6 +35,6 @@ class _CountStoreLocalRepository implements CountStoreLocalRepository {
   @override
   List<int> getCurrentStoredCounts() {
     final storedCountsJsonString = _sharedPreferences.getString(_sharedPreferencesKey);
-    return storedCountsJsonString == null ? [] : jsonDecode(storedCountsJsonString);
+    return storedCountsJsonString == null ? [] : jsonDecode(storedCountsJsonString).cast<int>() as List<int>;
   }
 }
