@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_tutorial/provider/count_store/count_store_provider.dart';
 import 'package:flutter_tutorial/provider/counter/counter_provider.dart';
 import 'package:flutter_tutorial/view/main/main_screen.notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class MainScreen extends ConsumerWidget {
+class MainScreen extends HookConsumerWidget {
   const MainScreen({
     super.key,
     required this.title,
@@ -22,6 +23,17 @@ class MainScreen extends ConsumerWidget {
 
     final counterNotifier = ref.read(counterProvider.notifier);
     final counterStoreNotifier = ref.read(counterStoreProvider.notifier);
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final currentStoredCounts = notifier.getCurrentStoredCounts();
+        if (currentStoredCounts.isNotEmpty) {
+          counterStoreNotifier.saveCounts(currentStoredCounts);
+        }
+      });
+
+      return null;
+    }, []);
 
     return Scaffold(
       appBar: AppBar(
