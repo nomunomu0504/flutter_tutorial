@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_tutorial/provider/count_store/count_store_provider.dart';
 import 'package:flutter_tutorial/provider/counter/counter_provider.dart';
+import 'package:flutter_tutorial/view/main/main_screen.notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MainScreen extends ConsumerWidget {
@@ -15,6 +14,9 @@ class MainScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.read(mainScreenNotifierProvider.notifier);
+    final state = ref.read(mainScreenNotifierProvider);
+
     final counter = ref.watch(counterProvider);
     final savedCounts = ref.watch(counterStoreProvider);
 
@@ -71,9 +73,15 @@ class MainScreen extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           FloatingActionButton(
-            onPressed: () => counterStoreNotifier.saveCount(counter),
+            onPressed: () => notifier.saveCurrentStoredCounts(counterStoreNotifier.getCounts()),
             tooltip: 'Save Count',
             child: const Icon(Icons.save),
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton(
+            onPressed: () => counterStoreNotifier.saveCount(counter),
+            tooltip: 'Save Count',
+            child: const Icon(Icons.save_alt),
           ),
           const SizedBox(width: 16),
           FloatingActionButton(
