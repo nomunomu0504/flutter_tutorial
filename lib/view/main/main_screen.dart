@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tutorial/provider/counter_provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerWidget {
   const MainScreen({
     super.key,
     required this.title,
@@ -9,34 +11,14 @@ class MainScreen extends StatefulWidget {
   final String title;
 
   @override
-  State<StatefulWidget> createState() => _MainScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final counter = ref.watch(counterProvider);
+    final notifier = ref.read(counterProvider.notifier);
 
-class _MainScreenState extends State<MainScreen> {
-  int _counter = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    // nothings
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    // nothings
-  }
-
-  void _incrementCounter() {
-    setState(() => _counter++);
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(title),
       ),
       body: Center(
         child: Column(
@@ -46,14 +28,14 @@ class _MainScreenState extends State<MainScreen> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              '$counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: notifier.incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
