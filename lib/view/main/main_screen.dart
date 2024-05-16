@@ -16,7 +16,6 @@ class MainScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(mainScreenNotifierProvider.notifier);
-    final state = ref.read(mainScreenNotifierProvider);
 
     final counter = ref.watch(counterProvider);
     final savedCounts = ref.watch(counterStoreProvider);
